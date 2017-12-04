@@ -18,5 +18,8 @@ public class InsertionSort {
                 array[j] = min;
             }
         }
+        for (int anArray : array) {
+            System.out.println(anArray);
+        }
     }
 }
