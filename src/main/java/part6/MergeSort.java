@@ -5,32 +5,43 @@ public class MergeSort {
     public static void main(String[] args) {
         int[] arrayA = {23, 47, 81, 95};
         int[] arrayB = {7, 14, 39, 55, 62, 74};
-        int[] arrayC = new int[10];
-        merge(arrayA, 4, arrayB, 6, arrayC);
-        display(arrayC, 10);
+        int[] arrayC;
+        arrayC = merge(arrayA, arrayB);
+        display(arrayC);
     }
 
-    // Слияние массивов A и B в массив C
-    private static void merge(int[] arrayA, int sizeA,
-                              int[] arrayB, int sizeB,
-                              int[] arrayC) {
-        int aDex = 0, bDex = 0, cDex = 0;
-        while (aDex < sizeA && bDex < sizeB) // Ни один из массивов не пуст
-            if (arrayA[aDex] < arrayB[bDex])
-                arrayC[cDex++] = arrayA[aDex++];
+    private static int[] merge(int[] arrayA, int[] arrayB){
+        int[] arrayC = new int[arrayA.length + arrayB.length];
 
-            else
-                arrayC[cDex++] = arrayB[bDex++];
-        while (aDex < sizeA) // Массив arrayB пуст,
-            arrayC[cDex++] = arrayA[aDex++]; // в arrayA остались элементы
-        while (bDex < sizeB) // Массив arrayA пуст,
-            arrayC[cDex++] = arrayB[bDex++]; // в arrayB остались элементы
+        int indexA = 0, indexB = 0, indexC = 0;
+
+        while (indexA < arrayA.length && indexB < arrayB.length){
+            if (arrayA[indexA] < arrayB[indexB]) {
+                arrayC[indexC] = arrayA[indexA];
+                ++indexA;
+                ++indexC;
+            }else {
+                arrayC[indexC] = arrayB[indexB];
+                ++indexC;
+                ++indexB;
+            }
+        }
+
+        while (indexA < arrayA.length){
+            arrayC[indexC] = arrayA[indexA];
+            ++indexA;
+            ++indexC;
+        }
+
+        while (indexB < arrayB.length){
+            arrayC[indexC] = arrayB[indexB];
+            ++indexB;
+            ++indexC;
+        }
+        return arrayC;
     }
 
-    // Вывод содержимого массива
-    private static void display(int[] theArray, int size) {
-        for (int j = 0; j < size; j++)
-            System.out.print(theArray[j] + " ");
-        System.out.println("");
+    private static void display(int[] array) {
+        for (int anArray : array) System.out.print(anArray + " ");
     }
 }
