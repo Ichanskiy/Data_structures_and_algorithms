@@ -1,39 +1,36 @@
-package main.java.part6;
+package part6;
 
 public class MergeSort {
 
     public static void main(String[] args) {
-        int[] a1 = new int[] {21, 23, 24, 40, 75, 76, 78, 77, 900, 2100, 2200, 2300, 2400, 2500};
-        int[] a2 = new int[] {10, 11, 41, 50, 65, 86, 98, 101, 190, 1100, 1200, 3000, 5000};
-        int[] a3 = new int[a1.length + a2.length];
+        int[] arrayA = {23, 47, 81, 95};
+        int[] arrayB = {7, 14, 39, 55, 62, 74};
+        int[] arrayC = new int[10];
+        merge(arrayA, 4, arrayB, 6, arrayC);
+        display(arrayC, 10);
+    }
 
-        int i=0, j=0;
-        for (int k=0; k<a3.length; k++) {
+    // Слияние массивов A и B в массив C
+    private static void merge(int[] arrayA, int sizeA,
+                              int[] arrayB, int sizeB,
+                              int[] arrayC) {
+        int aDex = 0, bDex = 0, cDex = 0;
+        while (aDex < sizeA && bDex < sizeB) // Ни один из массивов не пуст
+            if (arrayA[aDex] < arrayB[bDex])
+                arrayC[cDex++] = arrayA[aDex++];
 
-            if (i > a1.length-1) {
-                int a = a2[j];
-                a3[k] = a;
-                j++;
-            }
-            else if (j > a2.length-1) {
-                int a = a1[i];
-                a3[k] = a;
-                i++;
-            }
-            else if (a1[i] < a2[j]) {
-                int a = a1[i];
-                a3[k] = a;
-                i++;
-            }
-            else {
-                int b = a2[j];
-                a3[k] = b;
-                j++;
-            }
-        }
+            else
+                arrayC[cDex++] = arrayB[bDex++];
+        while (aDex < sizeA) // Массив arrayB пуст,
+            arrayC[cDex++] = arrayA[aDex++]; // в arrayA остались элементы
+        while (bDex < sizeB) // Массив arrayA пуст,
+            arrayC[cDex++] = arrayB[bDex++]; // в arrayB остались элементы
+    }
 
-        for (int k = 0; k < a3.length; k++) {
-            System.out.println(a3[k]);
-        }
+    // Вывод содержимого массива
+    private static void display(int[] theArray, int size) {
+        for (int j = 0; j < size; j++)
+            System.out.print(theArray[j] + " ");
+        System.out.println("");
     }
 }
