@@ -1,39 +1,97 @@
 package part6;
 
-public class MergeSortRecursion {
+class DArray
+{
+    private long[] theArray; // Ссылка на массив theArray
+    private int nElems; // Количество элементов данных
+    //-----------------------------------------------------------
+    public DArray(int max) // Конструктор
+    {
+        theArray = new long[max]; // Создание массива
+        nElems = 0;
+    }
 
-    public static void main(String[] args) {
-        int[] a1 = new int[] {21, 23, 24, 40, 75, 76, 78, 77, 900, 2100, 2200, 2300, 2400, 2500};
-        int[] a2 = new int[] {10, 11, 41, 50, 65, 86, 98, 101, 190, 1100, 1200, 3000, 5000};
-        int[] a3 = new int[a1.length + a2.length];
-
-        int i=0, j=0;
-        for (int k=0; k<a3.length; k++) {
-
-            if (i > a1.length-1) {
-                int a = a2[j];
-                a3[k] = a;
-                j++;
-            }
-            else if (j > a2.length-1) {
-                int a = a1[i];
-                a3[k] = a;
-                i++;
-            }
-            else if (a1[i] < a2[j]) {
-                int a = a1[i];
-                a3[k] = a;
-                i++;
-            }
-            else {
-                int b = a2[j];
-                a3[k] = b;
-                j++;
-            }
-        }
-
-        for (int k = 0; k < a3.length; k++) {
-            System.out.println(a3[k]);
+    //-----------------------------------------------------------
+    public void insert(long value) // Занесение элемента в массив
+    {
+        theArray[nElems] = value; // Вставка элемента
+        nElems++; // Увеличение размера
+    }
+    //-----------------------------------------------------------
+    public void display() // Вывод содержимого массива
+    {
+        for(int j=0; j<nElems; j++) // Для каждого элемента
+            System.out.print(theArray[j] + " "); // Вывод
+        System.out.println("");
+    }
+    //-----------------------------------------------------------
+    public void mergeSort() // Вызывается из main()
+    { // Рабочая область
+        long[] workSpace = new long[nElems];
+        recMergeSort(workSpace, 0, nElems-1);
+    }
+    //-----------------------------------------------------------
+    private void recMergeSort(long[] workSpace, int lowerBound,
+                              int upperBound)
+    {
+        if(lowerBound == upperBound) // Если только один элемент,
+            return; // сортировка не требуется.
+        else
+        { // Поиск середины
+            int mid = (lowerBound+upperBound) / 2;
+            // Сортировка нижней половины
+            recMergeSort(workSpace, lowerBound, mid);
+            // Сортировка верхней половины
+            recMergeSort(workSpace, mid+1, upperBound);
+            // Слияние
+            merge(workSpace, lowerBound, mid+1, upperBound);
         }
     }
-}
+    //-----------------------------------------------------------
+    private void merge(long[] workSpace, int lowPtr,
+                       int highPtr, int upperBound)
+    {
+        int j = 0; // Индекс в рабочей области
+        int lowerBound = lowPtr;
+        int mid = highPtr-1;
+        int n = upperBound-lowerBound+1; // Количество элементов
+        while(lowPtr <= mid && highPtr <= upperBound)
+            if( theArray[lowPtr] < theArray[highPtr] )
+                workSpace[j++] = theArray[lowPtr++];
+            else
+        workSpace[j++] = theArray[highPtr++];
+        while(lowPtr <= mid)
+            workSpace[j++] = theArray[lowPtr++];
+        while(highPtr <= upperBound)
+            workSpace[j++] = theArray[highPtr++];
+        for(j=0; j<n; j++)
+            theArray[lowerBound+j] = workSpace[j];
+    }
+//-----------------------------------------------------------
+} // Конец класса DArray
+////////////////////////////////////////////////////////////////
+class MergeSortApp
+{
+    public static void main(String[] args)
+    {
+        int maxSize = 100; // Размер массива
+        DArray arr; // Ссылка на массив
+        arr = new DArray(maxSize); // Создание массива
+        arr.insert(64); // Вставка элементов
+        arr.insert(21);
+        arr.insert(33);
+        arr.insert(70);
+        arr.insert(12);
+        arr.insert(85);
+        arr.insert(44);
+        arr.insert(3);
+        arr.insert(99);
+        arr.insert(0);
+        arr.insert(108);
+        arr.insert(36);
+        arr.display(); // Вывод содержимого массива
+        arr.mergeSort(); // Сортировка слиянием
+        arr.display(); // Повторный вывод
+    }
+} // Конец класса MergeSortApp
+////////////////////////////////////////////////////////////////
