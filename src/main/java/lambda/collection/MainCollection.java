@@ -20,6 +20,9 @@ public class MainCollection {
 
         System.out.println("---------");
         people.stream().filter(person -> person.getAge() > 28).map(Person::getAge).forEach(System.out::println);
+
+        System.out.println("average");
+        System.out.println(people.stream().filter(person -> person.getAge() > 100).mapToDouble(Person::getAge).average().getAsDouble());
     }
 
 }
