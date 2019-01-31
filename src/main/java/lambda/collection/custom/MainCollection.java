@@ -1,6 +1,9 @@
-package lambda.collection;
+package lambda.collection.custom;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class MainCollection {

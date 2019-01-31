@@ -1,4 +1,4 @@
-package lambda.collection;
+package lambda.collection.custom;
 
 public class Person implements Comparable<Person> {
 
